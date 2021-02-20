@@ -7,9 +7,9 @@ export default function scrollAnimation () {
     const cb = (entries) => {
       entries.forEach( entry => {
         if(entry.isIntersecting){
-          if(entry.target.localName === "img"){
+          if(entry.target.tagName === "IMG"){
             entry.target.classList.replace("hidden", "toLeft")
-          } else{
+          } else if(entry.target.tagName === "BLOCKQUOTE"){
             entry.target.classList.replace("hidden", "toRight")
           }
         }
