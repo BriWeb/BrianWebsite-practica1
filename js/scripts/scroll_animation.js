@@ -1,21 +1,24 @@
-export default function scrollAnimation (description, img) {
-  const $images = document.querySelectorAll(img);
-  const $descriptions = document.querySelectorAll(description);
+export default function scrollAnimation () {
 
   window.addEventListener('scroll', (e) => {
-    const scrollTop = document.documentElement.scrollTop;
 
-    $images.forEach( $image => {
-      if($image.offsetTop - 350 < scrollTop){
-         $image.classList.replace("hidden", "toLeft");
-      }
-    })
+    const $smartAnimation = document.querySelectorAll("[data-smart-animation]");
 
-    $descriptions.forEach( $description => {
-      if($description.offsetTop - 450 < scrollTop){
-         $description.classList.replace("hidden", "toRight");
-      }
-    })
+    const cb = (entries) => {
+      entries.forEach( entry => {
+        if(entry.isIntersecting){
+          if(entry.target.localName === "img"){
+            entry.target.classList.replace("hidden", "toLeft")
+          } else{
+            entry.target.classList.replace("hidden", "toRight")
+          }
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(cb, {threshold: 0.65})
+
+    $smartAnimation.forEach( element => observer.observe(element))
 
   })
 }
